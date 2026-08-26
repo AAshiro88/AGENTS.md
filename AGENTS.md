@@ -74,6 +74,15 @@
 
 程式碼註釋不得使用表情符號或裝飾性符號。
 
+## Python 執行環境
+
+本機的 Python 環境由 Anaconda（anaconda3）管理。
+
+* Anaconda 安裝位置：`C:\ProgramData\Anaconda3`。
+* 執行 Python、pip 或 conda 相關指令時，優先使用 Anaconda 環境。
+* 直接執行 `python` 不一定會使用 Anaconda；若未啟用 conda 環境，應使用完整路徑 `C:\ProgramData\Anaconda3\python.exe` 呼叫。
+* 需要啟用環境時，使用 `conda activate <環境名稱>` 或透過「Anaconda PowerShell Prompt」等效方式操作。
+
 ## Python 專案相依套件
 
 此規則僅適用於 Python 專案。
