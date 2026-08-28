@@ -1,35 +1,47 @@
 @echo off
 cd /d "C:\Users\shicheng.chang\.config\opencode"
+echo ============================================
+echo   Sync AGENTS.md to all branches
+echo ============================================
+echo.
 
-:: 記住目前分支
+:: Remember current branch
 for /f "tokens=*" %%i in ('git branch --show-current') do set CURRENT=%%i
+echo Current branch: %CURRENT%
+echo.
 
-:: 檢查 AGENTS.md 是否有變更
+:: Check if AGENTS.md has changes
 git diff --name-only | findstr /i "AGENTS.md" >nul
 if %errorlevel% neq 0 (
     git diff --cached --name-only | findstr /i "AGENTS.md" >nul
     if %errorlevel% neq 0 (
-        echo AGENTS.md 沒有變更
+        echo [SKIP] No changes in AGENTS.md
         goto :end
     )
 )
 
-:: 提交到目前分支
+echo [1/3] Committing AGENTS.md to %CURRENT% ...
 git add AGENTS.md
 git commit -m "update AGENTS.md"
+echo.
 
-:: 合併到其他分支
+:: Merge to other branches
 for /f "tokens=*" %%i in ('git branch --format^("%%^(refname:short^)"^)') do (
     if "%%~i" neq "%CURRENT%" (
-        echo 合併到 %%~i ...
+        echo [2/3] Merging to %%~i ...
         git checkout %%~i
         git merge %CURRENT% --no-edit
+        echo.
     )
 )
 
-:: 切回原分支
+:: Switch back
+echo [3/3] Switching back to %CURRENT% ...
 git checkout %CURRENT%
+echo.
 
-echo 完成
+echo ============================================
+echo   Done! Use TortoiseGit to push all branches
+echo ============================================
 :end
 pause
