@@ -1,5 +1,9 @@
-# 忽略所有檔案與目錄
+# 忽略所有檔案
 *
 
-# 排除不要忽略的檔案
+# 不忽略的檔案
 !AGENTS.md
+!opencode.jsonc
+!opencode-rename.pyw
+!opencode-fix-titles.pyw
+!OpenCodeRename.vbs
