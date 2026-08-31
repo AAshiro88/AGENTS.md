@@ -1,6 +1,5 @@
-node_modules
-package.json
-package-lock.json
-bun.lock
-opencode.jsonc
-skills/
+# 忽略所有檔案與目錄
+*
+
+# 排除不要忽略的檔案
+!AGENTS.md
