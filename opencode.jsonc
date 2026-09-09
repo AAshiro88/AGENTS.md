@@ -5,5 +5,6 @@
     "title": {
       "model": "openrouter/free"
     }
-  }
+  },
+  "shell": "cmd"
 }
