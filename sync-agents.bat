@@ -8,6 +8,10 @@ echo.
 :: Pull latest from remote
 echo Pulling latest from remote ...
 git pull origin master
+if %errorlevel% neq 0 (
+    echo [ERROR] Failed to pull master. Fix conflicts then re-run.
+    goto :end
+)
 echo.
 
 :: Check if AGENTS.md has changes
@@ -29,6 +33,11 @@ echo.
 echo [2/4] Syncing to opencode ...
 git checkout opencode
 git pull origin opencode
+if %errorlevel% neq 0 (
+    echo [ERROR] Failed to pull opencode. Fix conflicts then re-run.
+    git checkout master
+    goto :end
+)
 git show master:AGENTS.md > AGENTS.md
 git add AGENTS.md
 git diff --cached --quiet
@@ -44,6 +53,11 @@ echo.
 echo [3/4] Syncing to claude ...
 git checkout claude
 git pull origin claude
+if %errorlevel% neq 0 (
+    echo [ERROR] Failed to pull claude. Fix conflicts then re-run.
+    git checkout master
+    goto :end
+)
 git show master:AGENTS.md > CLAUDE.md
 git add CLAUDE.md
 git diff --cached --quiet
