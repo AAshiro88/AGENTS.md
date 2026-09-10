@@ -5,6 +5,11 @@ echo   Sync AGENTS.md to all branches
 echo ============================================
 echo.
 
+:: Pull latest from remote
+echo Pulling latest from remote ...
+git pull origin master
+echo.
+
 :: Check if AGENTS.md has changes
 git diff --name-only | findstr /i "AGENTS.md" >nul
 if %errorlevel% neq 0 (
@@ -23,6 +28,7 @@ echo.
 :sync_opencode
 echo [2/4] Syncing to opencode ...
 git checkout opencode
+git pull origin opencode
 git show master:AGENTS.md > AGENTS.md
 git add AGENTS.md
 git diff --cached --quiet
@@ -37,6 +43,7 @@ echo.
 
 echo [3/4] Syncing to claude ...
 git checkout claude
+git pull origin claude
 git show master:AGENTS.md > CLAUDE.md
 git add CLAUDE.md
 git diff --cached --quiet
