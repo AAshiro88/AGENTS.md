@@ -3,3 +3,4 @@
 
 # 排除不要忽略的檔案
 !CLAUDE.md
+!sync-claude.bat
