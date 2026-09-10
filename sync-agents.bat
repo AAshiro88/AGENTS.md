@@ -5,6 +5,11 @@ echo   Sync AGENTS.md to all branches
 echo ============================================
 echo.
 
+:: Pull latest from remote
+echo Pulling latest from remote ...
+git pull origin opencode
+echo.
+
 :: Check if AGENTS.md has changes
 git diff --name-only | findstr /i "AGENTS.md" >nul
 if %errorlevel% neq 0 (
@@ -23,6 +28,7 @@ echo.
 :sync_master
 echo [2/4] Syncing to master ...
 git checkout master
+git pull origin master
 git show opencode:AGENTS.md > AGENTS.md
 git add AGENTS.md
 git diff --cached --quiet
@@ -36,8 +42,8 @@ git checkout opencode
 echo.
 
 echo [3/4] Syncing to .gemini/antigravity ...
-copy /y "C:\Users\shicheng.chang\.config\opencode\AGENTS.md" "C:\Users\shicheng.chang\.gemini\antigravity\AGENTS.md" >nul
 cd /d "C:\Users\shicheng.chang\.gemini\antigravity"
+git pull origin master
 git show opencode:AGENTS.md > AGENTS.md
 git add AGENTS.md
 git diff --cached --quiet
@@ -51,9 +57,8 @@ cd /d "C:\Users\shicheng.chang\.config\opencode"
 echo.
 
 echo [4/4] Syncing to .claude ...
-copy /y "C:\Users\shicheng.chang\.config\opencode\AGENTS.md" "C:\Users\shicheng.chang\.claude\CLAUDE.md" >nul
 cd /d "C:\Users\shicheng.chang\.claude"
-git checkout claude
+git pull origin claude
 git show opencode:AGENTS.md > CLAUDE.md
 git add CLAUDE.md
 git diff --cached --quiet
