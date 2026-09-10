@@ -25,12 +25,13 @@ git add AGENTS.md
 git commit -m "update AGENTS.md"
 echo.
 
-:: Merge to other branches
+:: Sync AGENTS.md to other branches
 for /f "tokens=*" %%i in ('git branch --format^("%%^(refname:short^)"^)') do (
     if "%%~i" neq "%CURRENT%" (
-        echo [2/3] Merging to %%~i ...
+        echo [2/3] Syncing AGENTS.md to %%~i ...
         git checkout %%~i
-        git merge %CURRENT% --no-edit
+        git checkout %CURRENT% -- AGENTS.md
+        git commit -m "sync AGENTS.md from %CURRENT%"
         echo.
     )
 )
