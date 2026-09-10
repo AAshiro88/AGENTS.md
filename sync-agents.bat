@@ -8,6 +8,10 @@ echo.
 :: Pull latest from remote
 echo Pulling latest from remote ...
 git pull origin opencode
+if %errorlevel% neq 0 (
+    echo [ERROR] Failed to pull opencode. Fix conflicts then re-run.
+    goto :end
+)
 echo.
 
 :: Check if AGENTS.md has changes
@@ -29,6 +33,10 @@ echo.
 echo [2/4] Syncing to master ...
 git checkout master
 git pull origin master
+if %errorlevel% neq 0 (
+    echo [ERROR] Failed to pull master. Fix conflicts then re-run.
+    goto :end
+)
 git show opencode:AGENTS.md > AGENTS.md
 git add AGENTS.md
 git diff --cached --quiet
@@ -44,6 +52,11 @@ echo.
 echo [3/4] Syncing to .gemini/antigravity ...
 cd /d "C:\Users\shicheng.chang\.gemini\antigravity"
 git pull origin master
+if %errorlevel% neq 0 (
+    echo [ERROR] Failed to pull gemini. Fix conflicts then re-run.
+    cd /d "C:\Users\shicheng.chang\.config\opencode"
+    goto :end
+)
 git show opencode:AGENTS.md > AGENTS.md
 git add AGENTS.md
 git diff --cached --quiet
@@ -59,6 +72,11 @@ echo.
 echo [4/4] Syncing to .claude ...
 cd /d "C:\Users\shicheng.chang\.claude"
 git pull origin claude
+if %errorlevel% neq 0 (
+    echo [ERROR] Failed to pull claude. Fix conflicts then re-run.
+    cd /d "C:\Users\shicheng.chang\.config\opencode"
+    goto :end
+)
 git show opencode:AGENTS.md > CLAUDE.md
 git add CLAUDE.md
 git diff --cached --quiet
