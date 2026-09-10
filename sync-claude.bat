@@ -5,6 +5,15 @@ echo   Sync CLAUDE.md to all branches
 echo ============================================
 echo.
 
+:: Pull latest from remote
+echo Pulling latest from remote ...
+git pull origin claude
+if %errorlevel% neq 0 (
+    echo [ERROR] Failed to pull claude. Fix conflicts then re-run.
+    goto :end
+)
+echo.
+
 :: Check if CLAUDE.md has changes
 git diff --name-only | findstr /i "CLAUDE.md" >nul
 if %errorlevel% neq 0 (
@@ -23,6 +32,12 @@ echo.
 :sync_master
 echo [2/4] Syncing to master as AGENTS.md ...
 git checkout master
+git pull origin master
+if %errorlevel% neq 0 (
+    echo [ERROR] Failed to pull master. Fix conflicts then re-run.
+    git checkout claude
+    goto :end
+)
 git show claude:CLAUDE.md > AGENTS.md
 git add AGENTS.md
 git diff --cached --quiet
@@ -36,9 +51,13 @@ git checkout claude
 echo.
 
 echo [3/4] Syncing to opencode repo ...
-copy /y "C:\Users\shicheng.chang\.claude\CLAUDE.md" "C:\Users\shicheng.chang\.config\opencode\AGENTS.md" >nul
 cd /d "C:\Users\shicheng.chang\.config\opencode"
-git checkout opencode
+git pull origin opencode
+if %errorlevel% neq 0 (
+    echo [ERROR] Failed to pull opencode. Fix conflicts then re-run.
+    cd /d "C:\Users\shicheng.chang\.claude"
+    goto :end
+)
 git show claude:CLAUDE.md > AGENTS.md
 git add AGENTS.md
 git diff --cached --quiet
@@ -50,6 +69,13 @@ if %errorlevel% neq 0 (
 )
 :: Sync to master
 git checkout master
+git pull origin master
+if %errorlevel% neq 0 (
+    echo [ERROR] Failed to pull master. Fix conflicts then re-run.
+    git checkout opencode
+    cd /d "C:\Users\shicheng.chang\.claude"
+    goto :end
+)
 git show claude:CLAUDE.md > AGENTS.md
 git add AGENTS.md
 git diff --cached --quiet
